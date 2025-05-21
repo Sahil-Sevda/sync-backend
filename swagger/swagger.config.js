@@ -8,12 +8,6 @@ const options = {
       version: '1.0.0',
       description: 'API documentation for device sync event tracking',
     },
-    servers: [
-      {
-        url: 'http://localhost:3500',
-        description: 'Local Development Server',
-      },
-    ],
     components: {
       securitySchemes: {
         ApiKeyAuth: {
