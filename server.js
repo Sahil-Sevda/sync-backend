@@ -17,20 +17,29 @@ const app = express();
 app.set("trust proxy", true);
 
 app.use(fileUpload());
-const allowedOrigins = ENV.ALLOWED_ORIGINS?.split(",") || [];
-app.use(
-  cors({
-    origin: (origin, callback) => {
-      if (!origin || allowedOrigins.includes(origin)) {
-        return callback(null, true);
-      }
-      return callback(new Error("Not allowed by CORS"));
-    },
-    credentials: true,
-  })
-);
+const allowedOrigins = ENV.ALLOWED_ORIGINS.split(',');
 
-app.options("*", cors());
+const corsOptions = {
+  credentials: true,
+  origin: (origin, callback) => {
+    try {
+      if (
+        !origin ||
+        origin === "http://localhost:3500" ||
+        new URL(origin).hostname.endsWith("onrender.com")
+      ) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    } catch (err) {
+      callback(new Error("Invalid origin"));
+    }
+  },
+};
+
+
+app.use(cors(corsOptions));
 
 app.use(cookieParser());
 app.use(express.urlencoded({ extended: false }));
