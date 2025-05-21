@@ -17,7 +17,22 @@ const app = express();
 app.set("trust proxy", true);
 
 app.use(fileUpload());
-app.use(cors({ credentials: true, origin: true }));
+const allowedOrigins = [
+  "http://localhost:3500",
+  "https://sync-backend-0p68.onrender.com",
+];
+
+app.use(
+  cors({
+    origin: (origin, callback) => {
+      if (!origin || allowedOrigins.includes(origin)) {
+        return callback(null, true);
+      }
+      return callback(new Error("Not allowed by CORS"));
+    },
+    credentials: true,
+  })
+);
 app.use(cookieParser());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
