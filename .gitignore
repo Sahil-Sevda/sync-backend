@@ -1,0 +1,20 @@
+# Node modules
+node_modules/
+
+# Logs
+logs/
+*.log
+
+# dotenv environment files
+.env
+
+#swagger
+swagger-output.json
+
+# Docker
+docker-compose.override.yml
+*.pid
+
+# Docker volumes
+data/db/
+
