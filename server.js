@@ -17,11 +17,7 @@ const app = express();
 app.set("trust proxy", true);
 
 app.use(fileUpload());
-const allowedOrigins = [
-  "http://localhost:3500",
-  "https://sync-backend-0p68.onrender.com",
-];
-
+const allowedOrigins = ENV.ALLOWED_ORIGINS?.split(",") || [];
 app.use(
   cors({
     origin: (origin, callback) => {
